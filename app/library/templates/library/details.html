@@ -1,0 +1,90 @@
+{% extends 'main/layout.html' %}
+
+{% block title %}{{ library.name }}{% endblock %}
+
+{% block style %}
+    .book-list {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin-top: 30px;
+    }
+
+    .book-card {
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 15px;
+        margin: 10px;
+        text-align: center;
+        max-width: 250px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease-in-out;
+        flex: 1 1 calc(20% - 20px);
+        position: relative;
+    }
+
+    .book-card:hover {
+        transform: scale(1.05);
+    }
+
+    .author {
+        color: #888;
+    }
+
+    .buttons {
+        position: absolute;
+        bottom: 5px;
+        right: 10px;
+    }
+
+    .delete-book,
+    .edit-book {
+        cursor: pointer;
+        font-size: 18px;
+    }
+
+    .btn-add-book-alt {
+        margin-top: 30px;
+        display: inline-block;
+        padding: 15px 30px;
+        font-size: 18px;
+        font-weight: bold;
+        text-align: center;
+        text-decoration: none;
+        background-color: #3498db; /* Цвет фона кнопки */
+        color: #fff; /* Цвет текста */
+        border: 2px solid #3498db; /* Обводка кнопки */
+        border-radius: 25px; /* Круглая форма */
+        transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out, transform 0.3s ease-in-out; /* Анимация при наведении */
+    }
+
+    .btn-add-book-alt:hover {
+        background-color: #2980b9; /* Цвет фона при наведении */
+        color: #fff; /* Цвет текста при наведении */
+        transform: scale(1.1); /* Увеличение размера при наведении */
+    }
+    .buttons a {
+        text-decoration: none;
+    }
+
+{% endblock %}
+
+
+{% block content %}
+    <div class="features">
+        <h1>{{ library.name }}</h1>
+        <a href="{% url 'createBook' library.id %}" class="btn-add-book-alt">Добавить книгу</a>
+        <div class="book-list">
+            {% for book in library.book_set.all %}
+                <div class="book-card">
+                    <h3>{{ book.title }}</h3>
+                    <p class="author">{{ book.author }}</p>
+                    <div class="buttons">
+                        <a href="{% url 'book-update' library.id book.id %}" class="edit-book">✏️</a>
+                        <a href="{% url 'book-delete' library.id book.id %}" class="delete-book">❌</a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

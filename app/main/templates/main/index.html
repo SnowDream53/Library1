@@ -1,0 +1,11 @@
+{% extends 'main/layout.html' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+    <div class="features">
+        <h1>{{ title }}</h1>
+        <p>На этом сайте вы можете создать собственные библиотеки, разделить их по жанрам и добавить книги, которые планируете прочитать или уже прочитали.</p>
+        <a href="{% url 'library_home'%}" class="btn btn-warning">Перейти к библиотекам</a>
+    </div>
+{% endblock %}

@@ -1,0 +1,143 @@
+{% extends 'main/layout.html' %}
+
+{% block title %}Библиотеки{% endblock %}
+
+{% block style%}
+    h1 {
+    text-align: center;
+    }
+
+    .container {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        grid-gap: 20px;
+        text-decoration: none;
+        justify-content: center;
+        margin-top: 50px;
+    }
+
+    .library {
+        position: relative;
+        overflow: hidden;
+    }
+
+    .library img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center top; /* Центрируем изображение по горизонтали и размещаем вверху */
+        transition: transform 0.3s ease-in-out;
+    }
+
+    .library:hover img {
+        transform: scale(1.1);
+    }
+
+    .overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        opacity: 0;
+        transition: opacity 0.3s ease-in-out;
+        padding: 10px;
+    }
+
+    .library:hover .overlay {
+        opacity: 1;
+    }
+
+    .library h2 {
+        text-align: center;
+        color: #fff;
+        margin: 0;
+    }
+
+    .buttons {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 10px;
+    }
+
+
+    .edit-icon,
+    .delete-icon {
+        font-size: 24px;
+        color: #4CAF50; /* Зеленый цвет значков */
+        position: absolute;
+        cursor: pointer;
+        transition: transform 0.3s ease-in-out, color 0.3s; /* Анимация цвета и размера */
+    }
+
+    .edit-icon {
+        bottom: 10px;
+        left: 10px;
+    }
+
+    .delete-icon {
+        bottom: 10px;
+        right: 10px;
+    }
+
+    .library:hover .edit-icon,
+    .library:hover .delete-icon {
+        transform: scale(1.2);
+        color: #45a049; /* Темно-зеленый цвет значков при наведении */
+    }
+
+    .library a {
+        text-decoration: none;
+    }
+
+    .btn-add-book-alt {
+        margin-top: 30px;
+        display: inline-block;
+        padding: 15px 30px;
+        font-size: 18px;
+        font-weight: bold;
+        text-align: center;
+        text-decoration: none;
+        background-color: #3498db; /* Цвет фона кнопки */
+        color: #fff; /* Цвет текста */
+        border: 2px solid #3498db; /* Обводка кнопки */
+        border-radius: 25px; /* Круглая форма */
+        transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out, transform 0.3s ease-in-out; /* Анимация при наведении */
+    }
+
+    .btn-add-book-alt:hover {
+        background-color: #2980b9; /* Цвет фона при наведении */
+        color: #fff; /* Цвет текста при наведении */
+        transform: scale(1.1); /* Увеличение размера при наведении */
+    }
+
+{% endblock %}
+
+{% block content %}
+    <div class="features">
+        <h1>Ваши библиотеки</h1>
+        <a href="{% url 'createLib' %}" class="btn-add-book-alt">Добавить библиотеку </a>
+        <div class="container">
+            {% for library in librarys %}
+                <div class="library">
+                    <a href="{% url 'library-detail' library.id %}">
+                        <img src="{{ library.picture }}" alt="{{ library.name }}">
+                        <div class="overlay">
+                            <h2>{{ library.name }}</h2>
+                            <div class="buttons">
+                                <a href="{% url 'library-update' library.id %}" class="edit-icon" title="Редактировать">&#9998;</a>
+                                <a href="{% url 'library-delete' library.id %}" class="delete-icon" title="Удалить">&#10006;</a>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

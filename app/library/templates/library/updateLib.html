@@ -1,0 +1,16 @@
+{% extends 'main/layout.html' %}
+
+{% block title %}Редактирование библиотеки{% endblock %}
+
+{% block content %}
+    <div class="features">
+        <h1>Редактирование библиотеки</h1>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.name }}<br>
+            {{ form.picture }}<br>
+            <span>{{ error }}</span>
+            <button class="btn btn-success" type="submit">Редактировать Библиотеку</button>
+        </form>
+    </div>
+{% endblock %}
